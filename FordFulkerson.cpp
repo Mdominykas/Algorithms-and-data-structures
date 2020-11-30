@@ -86,7 +86,10 @@ int main()
 	{
 		int a, b, c;
 		cin >> a >> b >> c;
+		a--;
+		b--;
 		grafas[a][b] += c;
+		//grafas[b][a] += c;
 	}
 	cout << FordFulkerson(grafas, 0, n-1, n);
 }

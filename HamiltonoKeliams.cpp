@@ -1,3 +1,5 @@
+///Dirac's theorem: jei kiekvonos virsunes laipsnis bent n/2, tai grafas turi Hamiltono cikla
+///Ore's theorem jei bet kuriu negretumu virsuniu laipsniu suma bent n, tai grafas turi Hamiltono cikla
 #include<bits/stdc++.h>
 using namespace std;
 

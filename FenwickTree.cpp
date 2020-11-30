@@ -37,6 +37,7 @@ struct BIT
 			return sum(pb)-sum(pr-1);
 		return sum(pb);
 	}
+};
 
 int main()
 {
