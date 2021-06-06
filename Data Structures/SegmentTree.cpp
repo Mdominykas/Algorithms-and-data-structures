@@ -4,7 +4,7 @@ Explanation: simple segment tree that has array divided in to parts of
 results of two parts. Can also support range updates with lazy propagation 
 Source: Competitive Programmer’s Handbook p89
 Complexity: O(log(n)) update/query
-Tested on: lightly tested
+Tested on: Codeforces 1843C Skyline Photo
 */
 #include<bits/stdc++.h>
 using namespace std;

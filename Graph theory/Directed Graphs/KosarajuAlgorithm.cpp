@@ -1,74 +1,65 @@
 /*Kosajaru Algorithm
-Explanation: algorithm goes through the nodes by depth-first search
-started at each unvisited vertice. Then it goes through those vertice
-in reverse order and starts dfs with reverse graph at each unvisited.
+Explanation: algorithm goes through the nodes by depth-first search started at 
+each unvisited vertice and stores them by out-time. Then it goes through those
+vertice in reverse order and starts dfs with reverse graph at each unvisited. It
+works due to the fact that reverse graph has same strongly connected components
 Source: Competitive Programmer’s Handbook p158
 Complexity: O(E+V)
-Tested on: lightly tested
+Tested on: https://codeforces.com/gym/101398 problem I
 */
+
 #include<bits/stdc++.h>
 using namespace std;
 const int max_n = 1000000;
 vector<int> adj[max_n];
 vector<int> radj[max_n];
-vector<int> sarasas;
-vector<vector<int> > ats;
+vector<int> order;
 int num = 0;
-bool visited[max_n];
-void dfs1(int id)
+int scc[max_n];
+bool used[max_n];
+
+
+void dfsTopo(int id)
 {
+	used[id] = true;
 	for(int i=0; i<adj[id].size(); i++)
 	{
-		if(!visited[adj[id][i]])
-		{
-			visited[adj[id][i]] = 1;
-			dfs1(adj[id][i]);
-		}
+		if(!used[adj[id][i]])
+			dfsTopo(adj[id][i]);
 	}
-	sarasas.push_back(id);
+	order.push_back(id);
 }
 
-void dfs2(int id, int num)
+
+void dfsScc(int id, int num)
 {
+	used[id] = true;
+	scc[id] = num;
 	for(int i=0; i<radj[id].size(); i++)
 	{
-		int next = radj[id][i];
-		if(!visited[next])
-		{
-			visited[next] = 1;
-			dfs2(next, num);
-		}
+		if(!used[radj[id][i]])
+			dfsScc(radj[id][i], num);
 	}
-	ats[num].push_back(id);
 }
 
 void Kosaraju(int n)
 {
 	for(int i=0; i<n; i++)
-	{
-		visited[i] = 0;
-	}
+		used[i] = false;
 	for(int i=0; i<n; i++)
 	{
-		if(!visited[i])
+		if(!used[i])
+			dfsTopo(i);
+	}
+	for(int i=0; i<n; i++)
+		used[i] = false;
+	reverse(order.begin(), order.end());
+	for(int i=0; i<n; i++)
+	{
+		if(!used[order[i]])
 		{
-			visited[i] = 1;
-			dfs1(i);
-		}
-	}
-	for(int i=0; i<n; i++)
-	{
-		visited[i] = 0;
-	}
-	for(int i=0; i<n/2; i++)
-		swap(sarasas[i], sarasas[n-1-i]);
-	for(int i=0; i<n; i++)
-	{
-		if(!visited[sarasas[i]])
-		{
-			ats.push_back(vector<int>());
-			visited[sarasas[i]] = 1;
-			dfs2(sarasas[i], num);
+			used[order[i]] = 1;
+			dfsScc(order[i], num);
 			num++;
 		}
 	}
@@ -86,12 +77,9 @@ int main()
 		radj[b].push_back(a);
 	}
 	Kosaraju(n);
-	for(int i=0; i<num; i++)
+	for(int i=0; i<n; i++)
 	{
-		cout << i << " komponente: ";
-		for(int j=0; j<ats[i].size(); j++)
-			cout << ats[i][j] << " ";
-		cout << endl;
+		cout << scc[i] << " ";
 	}
 	return 0;
 }

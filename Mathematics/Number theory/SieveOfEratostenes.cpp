@@ -3,7 +3,7 @@ Explanation: algorithm goes through all the numbers and when it finds
 prime number it marks all it's multiples as not primes
 Source: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Algorithmic_complexity
 Complexity: O(nlog(log(n)))
-Tested on: lightly tested
+Tested on: Codeforces 1499D - the Number Of Pairs
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -20,8 +20,8 @@ int main()
 		if(arr[i]==0)
 		{
 			primes.push_back(i);
-			for(int j=2; j<=N/i; j++)
-				arr[i*j] = 1;
+			for(int j=i; j<=N; j+=i)
+				arr[j] = 1;
 		}
 	}
 	for(int i=sqrt(N)+1; i<=N; i++)

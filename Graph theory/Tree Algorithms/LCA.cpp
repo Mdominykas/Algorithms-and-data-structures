@@ -3,7 +3,10 @@ Explanation: using binary lifting algortihm can find lowest common ansestor
 between two nodes of tree in O(log(n)) time with O(nlog(n)) precomputation
 Source: Competitive Programmer’s Handbook p167
 Complexity: O(log(n)) with O(nlog(n)) precomputation
-Tested on: lightly tested
+Tested on: tested with some changes on GCPC 18 A
+Needs attention towards indexing from 0 and 1
+and actions performed in main
+might contain other errors
 */
 
 #include<bits/stdc++.h>

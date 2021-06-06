@@ -4,36 +4,37 @@ visited. After that lowest common ansestor of two vertices is node with
 minimal depth between both of them so it can be answered with sparse table
 Source: Competitive Programmer’s Handbook p168
 Complexity: O(1) per query after O(nlog(n)) preprocessing 
-Tested on: does not work
+Tested on: lightly tested
 */
 #include<bits/stdc++.h>
 using namespace std;
-const int max_n = 10000000;
-vector<int> briaunos[max_n];
+const int max_n = 1000005;
+vector<int> adj[max_n];
 int depth[2*max_n-1];
-int pirmas[max_n];
-int tree_traversal_array[2*max_n-1];
-int cur = 0;
+int timeIn[max_n], timeOut[max_n];
+int traversalArray[2*max_n-1];
+
+
 const int logn = 22;
-int lookup[max_n][logn];
-int loga[max_n];
+int lookup[2*max_n-1][logn];///saugo indeksus su minimaliu elementu
+int loga[2*max_n-1];
 void buildsparsetable(int N)
 {
 	for(int i=0; i<N; i++)
-		lookup[i][0] = tree_traversal_array[i];
+		lookup[i][0] = i;
 	for(int j=1; j<logn; j++)
 	{
-		cout << "skaiciuoju j = " << j << endl;
+		//cout << "skaiciuoju j = " << j << endl;
 		for(int i=0; i+(1<<j)<=N; i++)
 		{
-			if(depth[lookup[i][j-1]]<depth[lookup[i+(1<<(j-1))][j-1]])
+			if(depth[lookup[i][j-1]] < depth[lookup[i+(1<<(j-1))][j-1]])
 				lookup[i][j] = lookup[i][j-1];
 			else
 				lookup[i][j] = lookup[i+(1<<(j-1))][j-1];
-			cout << depth[lookup[i][j]] << " ";
+			//cout << depth[lookup[i][j]] << " ";
 			//lookup[i][j] = min(lookup[i][j-1], lookup[i+(1<<(j-1))][j-1]);
 		}
-		cout << endl;
+		//cout << endl;
 	}
 	loga[1] = 0;
 	for(int i=2; i<=N; i++)
@@ -49,19 +50,41 @@ int query(int L, int R)
 		return lookup[R-(1<<sk)+1][sk];
 }
 
-void sudaryk(int id, int gyl)
+int LCA(int A, int B)
 {
+	if((timeIn[A] <= timeIn[B]) && (timeOut[B] <= timeOut[A]))
+		return A;
+	// cout << A << " is parent of " << B << endl;
+	if((timeIn[B] <= timeIn[A]) && (timeOut[A] <= timeOut[B]))
+		return B;
+	// cout << B << " is parent of " << B << endl;
+	if(timeIn[B]<=timeIn[A])
+		swap(A, B);
 
-	pirmas[id] = cur;
-	tree_traversal_array[cur] = id;
-	depth[cur] = gyl;
+	// cout << "they are not direct ancestors" << endl;
+
+	return traversalArray[query(timeOut[A], timeIn[B])];
+}
+
+int cur = 0, curDep = 0;
+void eulerTourTraverse(int id, int par)
+{
+	timeIn[id] = cur;
+	traversalArray[cur] = id;
+	depth[cur] = curDep;
 	cur++;
-	for(int i=0; i<briaunos[id].size(); i++)
+	for(int next: adj[id])
 	{
-		sudaryk(briaunos[id][i], gyl+1);
-		tree_traversal_array[cur] = id;
+		if(next == par)
+			continue;
+		curDep++;
+		eulerTourTraverse(next, id);
+		curDep--;
+		traversalArray[cur] = id;
+		depth[cur] = curDep;
 		cur++;
 	}
+	timeOut[id] = cur;
 }
 
 
@@ -72,36 +95,48 @@ int main()
 	cin >> n;
 	for(int i=1; i<n; i++)
 	{
-		int a;
-		cin >> a;
-		briaunos[a].push_back(i); 
+		int a, b;
+		cin >> a >> b;
+		a--;
+		b--; 
+		adj[a].push_back(b);
+		adj[b].push_back(a);
 	}
-	for(int i=0; i<n; i++)
-	{
-		cout << i << " jo vaikai: ";
-		for(int j=0; j<briaunos[i].size(); j++)
-			cout << briaunos[i][j] << " ";
-		cout << endl;
-	}
-	sudaryk(0, 0);
+	// for(int i=0; i<n; i++)
+	// {
+	// 	cout << i << " jo vaikai: ";
+	// 	for(int j=0; j<briaunos[i].size(); j++)
+	// 		cout << briaunos[i][j] << " ";
+	// 	cout << endl;
+	// }
+	eulerTourTraverse(0, -1);
 	buildsparsetable(2*n-1);
-	int Q;
-	cin >> Q;
-	for(int i=0; i<2*n-1; i++)
-		cout << tree_traversal_array[i] << " ";
-	cout << endl;
-	for(int i=0; i<Q; i++)
-	{
-		int A, B;
-		cin >> A >> B;
-		cout << "klausiu: " << A << " " << B << endl;
-		A = pirmas[A];
-		B = pirmas[B];
-		if(A>B)
-			swap(A, B);
-		cout << "masyve tai: " << A << " " << B << endl;
+	cout << LCA(2, 3) << endl;
+	cout << LCA(3, 2) << endl;
 
-		cout << query(A, B) << "\n";
-	}
+
+	// for(int i=0; i<n; i++)
+	// 	cout << i << " : " << timeIn[i] << " " << timeOut[i] << endl;
+
+	// cout << "traverse array:" << endl;
+	// for(int i=0; i<2*n-1; i++)
+	// 	cout << traversalArray[i] << " ";
+	// cout << endl;
+
+	// cout << "depth array:" << endl;
+	// for(int i=0; i<2*n-1; i++)
+	// 	cout << depth[i] << " ";
+	// cout << endl;
+
+	// cout << "sparse table:" << endl;
+
+	// for(int j=0; j<logn; j++)
+	// {
+	// 	for(int i=0; i<2*n-1; i++)
+	// 		cout << lookup[i][j] << " ";
+	// 	cout << endl;
+	// }
+
+
 	return 0;
 }

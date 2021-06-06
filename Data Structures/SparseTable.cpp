@@ -5,6 +5,7 @@ every interval of 2 powers length.
 Source: Competitive Programmer’s Handbook p85
 Complexity: O(nlog(n)) preprocessing and per O(1) query
 Tested on: lightly tested
+Might not even work
 */
 #include<bits/stdc++.h>
 using namespace std;
