@@ -3,7 +3,7 @@
 ## Implementations of several algorithms and data structures.
 
 These codes should be tested, readable, well-commented and easy to modify. However, as it is changing repository, these requirements are not always met. Nonetheless, beggining of each code has short summary of algorithm source where it was taken, complexity and testing status. 
-
+(updated 2021-01)
 ## Content
 
   ## Data Structures

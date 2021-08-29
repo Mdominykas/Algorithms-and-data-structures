@@ -5,27 +5,27 @@ Support range updates with lazy propagation. when only it childs has to be updat
 it stores information in lazy variable and updates only when needed
 Source: Competitive Programmer’s Handbook p89
 Complexity: O(log(n)) update/query
-Tested on: lightly tested
+Tested on: https://codeforces.com/contest/1555/problem/E
 */
 #include<bits/stdc++.h>
 using namespace std;
 
 struct node
 {
-	int pradzia, pabaiga;
+	int start, finish;
 	long long value, lazy;
 	node *left, *right;
 	node() { }
 	node(int pr, int pb, int A[])
 	{
-		pradzia = pr;
-		pabaiga = pb;
+		start = pr;
+		finish = pb;
 		lazy = 0;
-		if(pradzia==pabaiga)
+		if(start == finish)
 		{
 			left = NULL;
 			right = NULL;
-			value = A[pradzia];
+			value = A[start];
 		}
 		else
 		{
@@ -37,18 +37,18 @@ struct node
 	long long get(int pr, int pb)
 	{
 		fix();
-		if((pr<=pradzia) && (pabaiga<=pb))
+		if((pr<=start) && (finish<=pb))
 			return value;
-		else if ((pabaiga<pr) || (pb<pradzia))
+		else if ((finish<pr) || (pb<start))
 			return INT_MAX;
 		else
 			return min(left->get(pr, pb), right->get(pr, pb));
 	}
 	void fix()
 	{
-		if(lazy!=0)
+		if(lazy != 0)
 		{
-			if(left!=NULL)
+			if(left != NULL)
 			{
 				left->lazy += lazy;
 				left->value += lazy;
@@ -61,12 +61,12 @@ struct node
 	void update(int pr, int pb, long long delta)
 	{
 		fix();
-		if((pr<=pradzia) && (pabaiga<=pb))
+		if((pr <= start) && (finish <= pb))
 		{
   			lazy += delta;
   			value += delta;
 		}
-		else if ((pabaiga<pr) || (pb<pradzia))
+		else if ((finish < pr) || (pb < start))
 		{
 			return;
 		}
@@ -77,8 +77,16 @@ struct node
 			value = min(left->value, right->value);
 		}
 	}
+	void print()
+	{
+		fix();
+		if(left != NULL)
+			left->print();
+		cout << "[" << start << " " << finish << "]: " <<value << endl;
+		if(right != NULL)
+			right->print(); 
+	}
 };
-
 
 int main()
 {
