@@ -15,9 +15,9 @@ void computeLPSArray(char* pat, int M, int* lps)
 	int len = 0;
 	lps[0] = 0;
 	int i = 1;
-	while(i<M)
+	while(i < M)
 	{
-		if(pat[i]==pat[len])
+		if(pat[i] == pat[len])
 		{
 			len++;
 			lps[i] = len;
@@ -25,14 +25,14 @@ void computeLPSArray(char* pat, int M, int* lps)
 		}
 		else///pat[len]!=pat[i]
 		{
-			if(len==0)
+			if(len == 0)
 			{
 				lps[i] = 0;
 				i++;
 			}
 			else
 			{
-				len = lps[len-1];
+				len = lps[len - 1];
 			}
 		}
 	}
@@ -47,25 +47,25 @@ void KMPSearch(char* pat, char* txt)
 
 	computeLPSArray(pat, M, lps);
 
-	int i=0;///kurioje txt vietoje yra
-	int j=0;/// kiek sutapo paeiliui raidziu
-	while(i<N)
+	int i = 0;///kurioje txt vietoje yra
+	int j = 0;/// kiek sutapo paeiliui raidziu
+	while(i < N)
 	{
-		if(pat[i]==txt[j])
+		if(pat[i] == txt[j])
 		{
 			i++;
 			j++;
 		}
 
-		if(j==M)
+		if(j == M)
 		{
 			printf("Found pattern at index %d", i-M);
-			j = lps[j-1];
+			j = lps[j - 1];
 		}
-		else if ((i<N) && (pat[j]!=txt[i]))
+		else if ((i < N) && (pat[j] != txt[i]))
 		{
-			if(j!=0)
-				j = lps[j-1];
+			if(j != 0)
+				j = lps[j - 1];
 			else
 				i++;
 		}
