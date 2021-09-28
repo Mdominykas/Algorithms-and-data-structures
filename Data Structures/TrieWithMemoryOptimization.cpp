@@ -14,12 +14,7 @@ struct Trie
 	struct Node
 	{
 		int count = 0;
-		Node* child[numberOfChildren];
-		Node()
-		{
-			for(int i = 0; i < numberOfChildren; i++)
-				child[i] = NULL;
-		}
+		map<int, Node*> child;
 	};
 	Node *root;
 
