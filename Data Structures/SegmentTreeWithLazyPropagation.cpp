@@ -29,17 +29,17 @@ struct node
 		}
 		else
 		{
-			left = new node(pr, (pr+pb)/2, A);
-			right = new node((pr+pb)/2+1, pb, A);
+			left = new node(pr, (pr + pb) / 2, A);
+			right = new node((pr + pb) / 2+1, pb, A);
 			value = min(left->value, right->value);
 		}
 	}
 	long long get(int pr, int pb)
 	{
 		fix();
-		if((pr<=start) && (finish<=pb))
+		if((pr <= start) && (finish <= pb))
 			return value;
-		else if ((finish<pr) || (pb<start))
+		else if ((finish < pr) || (pb < start))
 			return INT_MAX;
 		else
 			return min(left->get(pr, pb), right->get(pr, pb));
