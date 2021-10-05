@@ -19,7 +19,7 @@ struct node
 	{
 		pradzia = pr;
 		pabaiga = pb;
-		if(pradzia==pabaiga)
+		if(pradzia == pabaiga)
 		{
 			left = NULL;
 			right = NULL;
@@ -27,18 +27,18 @@ struct node
 		}
 		else
 		{
-			left = new node(pr, (pr+pb)/2, A);
-			right = new node((pr+pb)/2+1, pb, A);
+			left = new node(pr, (pr + pb) / 2, A);
+			right = new node((pr + pb) / 2 + 1, pb, A);
 			value = min(left->value, right->value);
 		}
 	}
 	void update(int id, long long delta)
 	{
-		if(pradzia==pabaiga)
+		if(pradzia == pabaiga)
 			value += delta;
 		else
 		{
-			if(left->pabaiga<id)
+			if(left->pabaiga < id)
 				right->update(id, delta);
 			else
 				left->update(id, delta);
@@ -47,9 +47,9 @@ struct node
 	}
 	long long get(int pr, int pb)
 	{
-		if((pr<=pradzia) && (pabaiga<=pb))
+		if((pr <= pradzia) && (pabaiga <= pb))
 			return value;
-		else if ((pabaiga<pr) || (pb<pradzia))
+		else if ((pabaiga < pr) || (pb < pradzia))
 			return INT_MAX;
 		else
 			return min(left->get(pr, pb), right->get(pr, pb));
