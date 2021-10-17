@@ -16,15 +16,17 @@ Tested on: lightly tested
 #include<bits/stdc++.h>
 using namespace std;
 
-///multiplies matrixes a of size nxk and b of size kxm and stores results in c
-vector<vector<int> > multiplyMatrixes( vector<vector<int> > a, vector<vector<int> > b, int n, int m, int k)
+vector<vector<double> > multiplyMatrixes(vector<vector<double> > a, vector<vector<double> > b)
 {
-	vector<vector<int> > c(n, vector<int>(m, 0));
-	for(int i=0; i<n; i++)
+	assert(b.size() > 0);
+	assert(a.size() > 0);
+	assert(a[0].size() == b.size());
+	vector<vector<double> > c(a.size(), vector<double>(b[0].size(), 0));
+	for(int i = 0; i < a.size(); i++)
 	{
-		for(int j=0; j<m; j++)
+		for(int j = 0; j < b[0].size(); j++)
 		{
-			for(int k1=0; k1<k; k1++)
+			for(int k1 = 0; k1 < b.size(); k1++)
 				c[i][j] += a[i][k1] * b[k1][j];
 		}
 	}
@@ -36,7 +38,7 @@ int main()
 {
 	int n, m, k;
 	cin >> n >> m >> k;
-	vector<vector<int> > a(n, vector<int>(k, 0)), b(k, vector<int>(m, 0));
+	vector<vector<double> > a(n, vector<double>(k, 0)), b(k, vector<double>(m, 0));
 	for(int i=0; i<n; i++)
 	{
 		for(int j=0; j<k; j++)
@@ -47,7 +49,7 @@ int main()
 		for(int j=0; j<m; j++)
 			cin >> b[i][j];
 	}
-	vector<vector<int> > c = multiplyMatrixes(a, b, n, m, k);
+	vector<vector<double> > c = multiplyMatrixes(a, b);
 	for(int i=0; i<n; i++)
 	{
 		for(int j=0; j<m; j++)
