@@ -3,7 +3,7 @@ Explanation: based on similar ideas as Dijkstra's algorithm. It goes
 to the closes univisited vertice and finds minimal spanning tree.
 Source: Competitive Programmer’s Handbook p147
 Complexity: O(nlog(n))
-Tested on: lightly tested
+Tested on: seems incorrect
 */
 #include<bits/stdc++.h>
 using namespace std;

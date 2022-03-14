@@ -11,7 +11,7 @@
 Explanation: straight forward algorithm to multiply two matrixes
 Source: https://www8.cs.umu.se/kurser/TDBA77/VT06/algorithms/BOOK/BOOK3/NODE138.HTM
 Complexity: O(n^3)
-Tested on: lightly tested
+Tested on: https://codeforces.com/gym/102966/problem/C
 */
 #include<bits/stdc++.h>
 using namespace std;
